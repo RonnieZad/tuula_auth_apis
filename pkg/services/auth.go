@@ -15,6 +15,11 @@ type Server struct {
 	Jwt utils.JwtWrapper
 }
 
+// mustEmbedUnimplementedAuthServiceServer implements pb.AuthServiceServer
+func (*Server) mustEmbedUnimplementedAuthServiceServer() {
+	panic("unimplemented")
+}
+
 func (s *Server) Register(ctx context.Context, req *pb.RegisterRequest) (*pb.RegisterResponse, error) {
 	var user models.User
 
