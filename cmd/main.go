@@ -42,7 +42,6 @@ func main() {
 	}
 
 	grpcServer := grpc.NewServer()
-	// pb.RegisterAuthServiceServer(grpcServer, &s)
 
 	pb.RegisterAuthServiceServer(grpcServer, &s)
 
