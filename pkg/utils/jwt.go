@@ -4,7 +4,7 @@ import (
 	"errors"
 	"time"
 
-	"github.com/RonnieZad/nyumba-go-grpc-project/auth-svc/pkg/models"
+	"github.com/RonnieZad/nyumba-go-grpc-auth-svc/pkg/models"
 	"github.com/golang-jwt/jwt"
 )
 

@@ -4,10 +4,10 @@ import (
 	"context"
 	"net/http"
 
-	"github.com/RonnieZad/nyumba-go-grpc-project/auth-svc/pkg/db"
-	"github.com/RonnieZad/nyumba-go-grpc-project/auth-svc/pkg/models"
-	"github.com/RonnieZad/nyumba-go-grpc-project/auth-svc/pkg/pb"
-	"github.com/RonnieZad/nyumba-go-grpc-project/auth-svc/pkg/utils"
+	"github.com/RonnieZad/nyumba-go-grpc-auth-svc/pkg/db"
+	"github.com/RonnieZad/nyumba-go-grpc-auth-svc/pkg/models"
+	"github.com/RonnieZad/nyumba-go-grpc-auth-svc/pkg/pb"
+	"github.com/RonnieZad/nyumba-go-grpc-auth-svc/pkg/utils"
 )
 
 type Server struct {

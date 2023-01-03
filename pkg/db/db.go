@@ -3,7 +3,7 @@ package db
 import (
     "log"
 
-    "github.com/RonnieZad/nyumba-go-grpc-project/auth-svc/pkg/models"
+    "github.com/RonnieZad/nyumba-go-grpc-auth-svc/pkg/models"
     "gorm.io/driver/postgres"
     "gorm.io/gorm"
 )

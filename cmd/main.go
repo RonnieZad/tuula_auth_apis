@@ -5,11 +5,11 @@ import (
 	"log"
 	"net"
 
-	"github.com/RonnieZad/nyumba-go-grpc-project/auth-svc/pkg/config"
-	"github.com/RonnieZad/nyumba-go-grpc-project/auth-svc/pkg/db"
-	"github.com/RonnieZad/nyumba-go-grpc-project/auth-svc/pkg/pb"
-	"github.com/RonnieZad/nyumba-go-grpc-project/auth-svc/pkg/services"
-	"github.com/RonnieZad/nyumba-go-grpc-project/auth-svc/pkg/utils"
+	"github.com/RonnieZad/nyumba-go-grpc-auth-svc/pkg/config"
+	"github.com/RonnieZad/nyumba-go-grpc-auth-svc/pkg/db"
+	"github.com/RonnieZad/nyumba-go-grpc-auth-svc/pkg/pb"
+	"github.com/RonnieZad/nyumba-go-grpc-auth-svc/pkg/services"
+	"github.com/RonnieZad/nyumba-go-grpc-auth-svc/pkg/utils"
 	"google.golang.org/grpc"
 )
 
