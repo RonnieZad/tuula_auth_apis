@@ -12,10 +12,11 @@ service AuthService {
 }
 
 // Register
-
 message RegisterRequest {
-  string email = 1;
-  string password = 2;
+  string phoneNumber = 1;
+  string name = 2;
+  string email = 3;
+  string password = 4;
 }
 
 message RegisterResponse {
@@ -24,20 +25,24 @@ message RegisterResponse {
 }
 
 // Login
-
 message LoginRequest {
   string email = 1;
   string password = 2;
 }
 
+
 message LoginResponse {
   int64 status = 1;
   string error = 2;
   string token = 3;
+  string userId = 4;
+  string name = 5;
+  string email = 6;
+  string phone = 7;
+  string roleId = 8;
 }
 
 // Validate
-
 message ValidateRequest { string token = 1; }
 
 message ValidateResponse {
