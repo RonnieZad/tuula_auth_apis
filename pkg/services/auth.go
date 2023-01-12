@@ -2,12 +2,12 @@ package services
 
 import (
 	"context"
-	"net/http"
 
 	"github.com/RonnieZad/nyumba-go-grpc-auth-svc/pkg/db"
 	"github.com/RonnieZad/nyumba-go-grpc-auth-svc/pkg/models"
 	"github.com/RonnieZad/nyumba-go-grpc-auth-svc/pkg/pb"
 	"github.com/RonnieZad/nyumba-go-grpc-auth-svc/pkg/utils"
+	"net/http"
 )
 
 type Server struct {
@@ -15,25 +15,34 @@ type Server struct {
 	Jwt utils.JwtWrapper
 }
 
+// var _ pb.AuthServiceServer = (*Server)(nil)
+
 // mustEmbedUnimplementedAuthServiceServer implements pb.AuthServiceServer
 func (*Server) mustEmbedUnimplementedAuthServiceServer() {
 	panic("unimplemented")
 }
 
 func (s *Server) Register(ctx context.Context, req *pb.RegisterRequest) (*pb.RegisterResponse, error) {
-	var user models.User
+	var userDetails models.User
 
-	if result := s.H.DB.Where(&models.User{Email: req.Email}).First(&user); result.Error == nil {
+	if result := s.H.DB.Where(&models.User{Email: "zadrna@gmail.com"}).First(&userDetails); result.Error == nil {
 		return &pb.RegisterResponse{
 			Status: http.StatusConflict,
-			Error:  "E-Mail already exists",
+			Error:  "User already exists",
 		}, nil
 	}
 
-	user.Email = req.Email
-	user.Password = utils.HashPassword(req.Password)
+	userDetails.Email = req.Email
+	userDetails.Password = utils.HashPassword(req.Password)
+	userDetails.Name = req.Name
+	userDetails.PhoneNumber = req.PhoneNumber
 
-	s.H.DB.Create(&user)
+	// fmt.Print(req)
+
+	user := &models.User{Name: "Ronnie Zad", Email: "zadcorna@gmail.com", PhoneNumber: "+256702703612", Password: userDetails.Password}
+	s.H.DB.Create(user)
+
+	// s.H.DB.Create(&user)
 
 	return &pb.RegisterResponse{
 		Status: http.StatusCreated,
@@ -46,7 +55,7 @@ func (s *Server) Login(ctx context.Context, req *pb.LoginRequest) (*pb.LoginResp
 	if result := s.H.DB.Where(&models.User{Email: req.Email}).First(&user); result.Error != nil {
 		return &pb.LoginResponse{
 			Status: http.StatusNotFound,
-			Error:  "User not found",
+			Error:  "User account not found",
 		}, nil
 	}
 
@@ -55,7 +64,7 @@ func (s *Server) Login(ctx context.Context, req *pb.LoginRequest) (*pb.LoginResp
 	if !match {
 		return &pb.LoginResponse{
 			Status: http.StatusNotFound,
-			Error:  "User not found",
+			Error:  "User account not found",
 		}, nil
 	}
 
@@ -64,6 +73,12 @@ func (s *Server) Login(ctx context.Context, req *pb.LoginRequest) (*pb.LoginResp
 	return &pb.LoginResponse{
 		Status: http.StatusOK,
 		Token:  token,
+		Error:  "dada",
+		UserId: "dara",
+		Name:   "daea",
+		Email:  user.Email,
+		Phone:  user.PhoneNumber,
+		RoleId: "3",
 	}, nil
 }
 
@@ -90,4 +105,5 @@ func (s *Server) Validate(ctx context.Context, req *pb.ValidateRequest) (*pb.Val
 		Status: http.StatusOK,
 		UserId: user.Id,
 	}, nil
+
 }

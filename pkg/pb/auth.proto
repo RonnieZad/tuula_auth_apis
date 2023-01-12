@@ -1,4 +1,3 @@
-
 syntax = "proto3";
 
 package auth;
@@ -29,7 +28,6 @@ message LoginRequest {
   string email = 1;
   string password = 2;
 }
-
 
 message LoginResponse {
   int64 status = 1;
