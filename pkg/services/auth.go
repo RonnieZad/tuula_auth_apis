@@ -2,12 +2,13 @@ package services
 
 import (
 	"context"
+	"net/http"
+
 	"github.com/RonnieZad/nyumba-go-grpc-auth-svc/pkg/db"
 	"github.com/RonnieZad/nyumba-go-grpc-auth-svc/pkg/models"
 	"github.com/RonnieZad/nyumba-go-grpc-auth-svc/pkg/pb"
 	"github.com/RonnieZad/nyumba-go-grpc-auth-svc/pkg/utils"
-
-	"net/http"
+	"github.com/google/uuid"
 )
 
 type Server struct {
@@ -31,9 +32,8 @@ func (s *Server) Register(ctx context.Context, req *pb.RegisterRequest) (*pb.Reg
 		}, nil
 	}
 
-
 	user := &models.User{
-		ID: "2",
+		ID:   uuid.New(),
 		Name: req.Name, EmailAddress: req.EmailAddress, PhoneNumber: req.PhoneNumber, Password: utils.HashPassword(req.Password),
 		DateOfBirth: req.DateOfBirth, CreditScore: req.CreditScore, IsFinanceWorthy: req.IsFinanceWorthy, WorkPlace: req.WorkPlace, NIN: req.Nin, EmployerName: req.EmployerName,
 		SalaryScale: req.SalaryScale, IsKYCVerified: req.KycVerified,
@@ -52,7 +52,7 @@ func (s *Server) Login(ctx context.Context, req *pb.LoginRequest) (*pb.LoginResp
 	if result := s.H.DB.Where(&models.User{EmailAddress: req.EmailAddress}).First(&user); result.Error != nil {
 		return &pb.LoginResponse{
 			Status: http.StatusNotFound,
-			Error:  "User account not found",
+			Error:  "User acount not found",
 		}, nil
 	}
 
@@ -61,7 +61,7 @@ func (s *Server) Login(ctx context.Context, req *pb.LoginRequest) (*pb.LoginResp
 	if !match {
 		return &pb.LoginResponse{
 			Status: http.StatusNotFound,
-			Error:  "User account not found",
+			Error:  "Wrong Password, Try again",
 		}, nil
 	}
 
@@ -72,9 +72,10 @@ func (s *Server) Login(ctx context.Context, req *pb.LoginRequest) (*pb.LoginResp
 		Token:  token,
 		Error:  "dada",
 		UserId: "dara",
-		Name:   "daea",
+		Name:   user.Name,
 		Email:  user.EmailAddress,
 		Phone:  user.PhoneNumber,
+
 		RoleId: "3",
 	}, nil
 }

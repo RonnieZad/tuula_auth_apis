@@ -3,7 +3,7 @@ package utils
 import (
 	"errors"
 	"time"
-
+	"github.com/google/uuid"
 	"github.com/RonnieZad/nyumba-go-grpc-auth-svc/pkg/models"
 	"github.com/golang-jwt/jwt"
 )
@@ -16,7 +16,7 @@ type JwtWrapper struct {
 
 type jwtClaims struct {
 	jwt.StandardClaims
-	Id    string
+	Id    uuid.UUID
 	Email string
 }
 
