@@ -1,15 +1,25 @@
-
 package models
 
 import (
-    "gorm.io/gorm"
+
+	"gorm.io/gorm"
+
 )
 
 type User struct {
-    Id       int64  `json:"id" gorm:"primaryKey"`
-    PhoneNumber    string `json:"phoneNumber" gorm:"not null"`
-    Name    string `json:"name" gorm:"not null;unique"`
-    Email    string `json:"email" gorm:"not null"`
-    Password string `json:"password" gorm:"not null"`
-    gorm.Model
+	ID                          string `json:"id"`
+	PhoneNumber                 string    `json:"phoneNumber"`
+	PhoneNumberVerificationCode string    `json:"phoneNumberVerificationCode"`
+	Name                        string    `json:"name"`
+	EmailAddress                string    `json:"emailAddress"`
+	DateOfBirth                 string `json:"dateOfBirth"`
+	Password                    string    `json:"password"`
+	IsKYCVerified               bool      `json:"kycVerified"`
+	CreditScore                 float32   `json:"creditScore"`
+	IsFinanceWorthy             bool      `json:"isFinanceWorthy"`
+	WorkPlace                   string    `json:"workPlace"`
+	NIN                         string    `json:"nin"`
+	EmployerName                string    `json:"employerName"`
+	SalaryScale                 float32   `json:"salaryScale"`
+	gorm.Model                  `json:"-"`
 }

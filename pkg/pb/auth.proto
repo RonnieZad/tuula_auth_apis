@@ -12,10 +12,19 @@ service AuthService {
 
 // Register
 message RegisterRequest {
-  string phoneNumber = 1;
-  string name = 2;
-  string email = 3;
-  string password = 4;
+  string phone_number = 1;
+  string phone_number_verification_code = 2;
+  string name = 3;
+  string email_address = 4;
+  string date_of_birth = 5;
+  string password = 6;
+  bool kyc_verified = 7;
+  float credit_score = 8;
+  bool is_finance_worthy = 9;
+  string work_place = 10;
+  string nin = 11;
+  string employer_name = 12;
+  float salary_scale = 13;
 }
 
 message RegisterResponse {

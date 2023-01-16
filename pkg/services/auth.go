@@ -2,7 +2,7 @@ package services
 
 import (
 	"context"
-
+	"log"
 	"github.com/RonnieZad/nyumba-go-grpc-auth-svc/pkg/db"
 	"github.com/RonnieZad/nyumba-go-grpc-auth-svc/pkg/models"
 	"github.com/RonnieZad/nyumba-go-grpc-auth-svc/pkg/pb"
@@ -13,9 +13,8 @@ import (
 type Server struct {
 	H   db.Handler
 	Jwt utils.JwtWrapper
+	pb.AuthServiceServer
 }
-
-// var _ pb.AuthServiceServer = (*Server)(nil)
 
 // mustEmbedUnimplementedAuthServiceServer implements pb.AuthServiceServer
 func (*Server) mustEmbedUnimplementedAuthServiceServer() {
@@ -23,24 +22,29 @@ func (*Server) mustEmbedUnimplementedAuthServiceServer() {
 }
 
 func (s *Server) Register(ctx context.Context, req *pb.RegisterRequest) (*pb.RegisterResponse, error) {
-	var userDetails models.User
+	// var userDetails models.User
 
-	if result := s.H.DB.Where(&models.User{Email: "zadrna@gmail.com"}).First(&userDetails); result.Error == nil {
-		return &pb.RegisterResponse{
-			Status: http.StatusConflict,
-			Error:  "User already exists",
-		}, nil
-	}
+	// if result := s.H.DB.Where(&models.User{Email: req.Email}).First(&userDetails); result.Error == nil {
+	// 	return &pb.RegisterResponse{
+	// 		Status: http.StatusConflict,
+	// 		Error:  "User already exists",
+	// 	}, nil
+	// }
+	// user := &models.User{
+	// 	Name:        req.Name,
+	// 	Email:       req.Email,
+	// 	PhoneNumber: req.PhoneNumber,
+	// 	Password:    utils.HashPassword(req.Password),
+	// }
+	log.Printf("Received register request: %s", req)
 
-	userDetails.Email = req.Email
-	userDetails.Password = utils.HashPassword(req.Password)
-	userDetails.Name = req.Name
-	userDetails.PhoneNumber = req.PhoneNumber
-
-	// fmt.Print(req)
-
-	user := &models.User{Name: "Ronnie Zad", Email: "zadcorna@gmail.com", PhoneNumber: "+256702703612", Password: userDetails.Password}
-	s.H.DB.Create(user)
+	// user := &models.User{Name: "Ronnie Zad", EmailAddress: "zadcorna@gmail.com", PhoneNumber: "+256702703612", Password: utils.HashPassword(req.Password)}
+	// s.H.DB.Create(&models.User{
+	// 	Name:        "req.Name",
+	// 	Email:       req.Email,
+	// 	PhoneNumber: req.PhoneNumber,
+	// 	Password:    utils.HashPassword(req.Password),
+	// })
 
 	// s.H.DB.Create(&user)
 
@@ -52,7 +56,7 @@ func (s *Server) Register(ctx context.Context, req *pb.RegisterRequest) (*pb.Reg
 func (s *Server) Login(ctx context.Context, req *pb.LoginRequest) (*pb.LoginResponse, error) {
 	var user models.User
 
-	if result := s.H.DB.Where(&models.User{Email: req.Email}).First(&user); result.Error != nil {
+	if result := s.H.DB.Where(&models.User{EmailAddress: req.Email}).First(&user); result.Error != nil {
 		return &pb.LoginResponse{
 			Status: http.StatusNotFound,
 			Error:  "User account not found",
@@ -76,7 +80,7 @@ func (s *Server) Login(ctx context.Context, req *pb.LoginRequest) (*pb.LoginResp
 		Error:  "dada",
 		UserId: "dara",
 		Name:   "daea",
-		Email:  user.Email,
+		Email:  user.EmailAddress,
 		Phone:  user.PhoneNumber,
 		RoleId: "3",
 	}, nil
@@ -94,7 +98,7 @@ func (s *Server) Validate(ctx context.Context, req *pb.ValidateRequest) (*pb.Val
 
 	var user models.User
 
-	if result := s.H.DB.Where(&models.User{Email: claims.Email}).First(&user); result.Error != nil {
+	if result := s.H.DB.Where(&models.User{EmailAddress: claims.Email}).First(&user); result.Error != nil {
 		return &pb.ValidateResponse{
 			Status: http.StatusNotFound,
 			Error:  "User not found",
@@ -103,7 +107,7 @@ func (s *Server) Validate(ctx context.Context, req *pb.ValidateRequest) (*pb.Val
 
 	return &pb.ValidateResponse{
 		Status: http.StatusOK,
-		UserId: user.Id,
+		UserId: 1,
 	}, nil
 
 }
