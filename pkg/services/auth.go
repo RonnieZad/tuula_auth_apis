@@ -8,7 +8,7 @@ import (
 	"github.com/RonnieZad/nyumba-go-grpc-auth-svc/pkg/models"
 	"github.com/RonnieZad/nyumba-go-grpc-auth-svc/pkg/pb"
 	"github.com/RonnieZad/nyumba-go-grpc-auth-svc/pkg/utils"
-	"github.com/google/uuid"
+	
 )
 
 type Server struct {
@@ -33,7 +33,8 @@ func (s *Server) Register(ctx context.Context, req *pb.RegisterRequest) (*pb.Reg
 	}
 
 	user := &models.User{
-		ID:   uuid.New(),
+		// ID:   uuid.New(),
+		// ID:   uuid.New(),
 		Name: req.Name, EmailAddress: req.EmailAddress, PhoneNumber: req.PhoneNumber, Password: utils.HashPassword(req.Password),
 		DateOfBirth: req.DateOfBirth, CreditScore: req.CreditScore, IsFinanceWorthy: req.IsFinanceWorthy, WorkPlace: req.WorkPlace, NIN: req.Nin, EmployerName: req.EmployerName,
 		SalaryScale: req.SalaryScale, IsKYCVerified: req.KycVerified,
